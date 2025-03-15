@@ -41,7 +41,7 @@ public class Livro {
     @NotNull
     private String titulo;
 
-    @Column(name = "sinopse", length = 1000)
+    @Column(name = "sinopse", nullable = false, columnDefinition = "TEXT")
     private String sinopse;
 
     @Column(name = "genero", nullable = false)
