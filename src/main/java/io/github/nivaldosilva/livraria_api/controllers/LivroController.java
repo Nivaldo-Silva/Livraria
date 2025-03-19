@@ -1,8 +1,9 @@
 package io.github.nivaldosilva.livraria_api.controllers;
 
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,8 +37,8 @@ public class LivroController {
     }
 
     @GetMapping
-    public ResponseEntity<List<LivroResponseDto>> listarLivros() {
-        List<LivroResponseDto> livros = livroService.listarTodosLivros();
+    public ResponseEntity<Page<LivroResponseDto>> listarLivros(Pageable pageable) {
+        Page<LivroResponseDto> livros = livroService.listarTodosLivros(pageable);
         return ResponseEntity.ok(livros);
     }
 
@@ -49,7 +50,7 @@ public class LivroController {
 
     @PutMapping("/{id}")
     public ResponseEntity<LivroResponseDto> atualizarLivro(@PathVariable("id") UUID id,
-                                                           @Valid @RequestBody LivroRequestDto livroRequestDto) {
+            @Valid @RequestBody LivroRequestDto livroRequestDto) {
         LivroResponseDto livroResponseDto = livroService.atualizarLivro(id, livroRequestDto);
         return ResponseEntity.ok(livroResponseDto);
     }

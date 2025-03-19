@@ -1,8 +1,8 @@
 package io.github.nivaldosilva.livraria_api.service;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import io.github.nivaldosilva.livraria_api.dto.LivroRequestDto;
 import io.github.nivaldosilva.livraria_api.dto.LivroResponseDto;
@@ -42,10 +42,9 @@ public class LivroService {
         return livroRepository.save(livro);
     }
 
-    public List<LivroResponseDto> listarTodosLivros() {
-        return livroRepository.findAll().stream()
-                .map(livroMapper::toDTO)
-                .collect(Collectors.toList());
+    public Page<LivroResponseDto> listarTodosLivros(Pageable pageable) {
+        return livroRepository.findAll(pageable)
+                .map(livroMapper::toDTO);
     }
 
     public LivroResponseDto buscarLivroPorId(UUID id) {
@@ -58,7 +57,6 @@ public class LivroService {
         Livro livroExistente = livroRepository.findById(id)
                 .orElseThrow(() -> new LivroNaoEncontradoException(id));
 
-        // Atualiza os campos do livro existente com os dados do DTO usando MapStruct
         livroMapper.updateLivroFromDto(livroRequestDto, livroExistente);
 
         Livro livroAtualizado = livroRepository.save(livroExistente);

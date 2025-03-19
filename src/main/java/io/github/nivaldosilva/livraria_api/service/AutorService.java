@@ -34,13 +34,14 @@ public class AutorService {
         return autorRepository.save(autor);
     }
 
+     
     @Transactional(readOnly = true)
     public List<AutorDTO> listarAutores() {
         List<Autor> autores = autorRepository.findAll();
         return autores.stream()
                 .map(autorMapper::toDTO)
                 .collect(Collectors.toList());
-    }
+    } 
 
     @Transactional(readOnly = true)
     public AutorDTO obterAutor(UUID id) {
