@@ -13,13 +13,21 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    
     @ExceptionHandler(AutorNaoEncontradoException.class)
     public ResponseEntity<String> handleAutorNaoEncontradoException(AutorNaoEncontradoException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    
+    @ExceptionHandler(LivroNaoEncontradoException.class)
+    public ResponseEntity<String> handleLivroNaoEncontradoException(LivroNaoEncontradoException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(LivroJaExisteException.class)
+    public ResponseEntity<String> handleLivroJaExisteException(LivroJaExisteException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception ex) {
         return new ResponseEntity<>("Erro interno do servidor: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

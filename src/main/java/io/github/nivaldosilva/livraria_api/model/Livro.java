@@ -67,7 +67,7 @@ public class Livro {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "autor_id")
-    private Autor autor;
+    private Autor autor; 
 
     @CreationTimestamp
     @Column(name = "data_criacao")
@@ -76,6 +76,7 @@ public class Livro {
     @UpdateTimestamp
     @Column(name = "data_atualizacao")
     private LocalDateTime dataAtualizacao;
+}
     
 
-}
+

@@ -3,7 +3,6 @@ package io.github.nivaldosilva.livraria_api.service;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import io.github.nivaldosilva.livraria_api.dto.AutorDTO;
@@ -55,22 +54,12 @@ public class AutorService {
         Autor autor = autorRepository.findById(id)
                 .orElseThrow(() -> new AutorNaoEncontradoException(id));
 
-        Autor novosDados = autorMapper.toEntity(autorDTO);
+        autor.setNome(autorDTO.nome());
+        autor.setNacionalidade(autorDTO.nacionalidade());
+        autor.setDataNascimento(autorDTO.dataNascimento());
+        autor.setBiografia(autorDTO.biografia());
 
-        UUID autorId = autor.getId();
-        var dataCriacao = autor.getDataCriacao();
-        var usuarioId = autor.getUsuarioId();
-        var livros = autor.getLivros();
-        
-        BeanUtils.copyProperties(novosDados, autor, "id", "dataCriacao", "usuarioId", "livros");
-
-        autor.setId(autorId);
-        autor.setDataCriacao(dataCriacao);
-        autor.setUsuarioId(usuarioId);
-        autor.setLivros(livros);
-
-        Autor autorAtualizado = autorRepository.save(autor);
-        return autorMapper.toDTO(autorAtualizado);
+        return autorMapper.toDTO(autorRepository.save(autor));
     }
 
     @Transactional

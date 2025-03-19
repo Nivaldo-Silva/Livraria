@@ -17,41 +17,40 @@ import io.github.nivaldosilva.livraria_api.model.Autor;
 import io.github.nivaldosilva.livraria_api.service.AutorService;
 import jakarta.validation.Valid;
 
-
 @RestController
 @RequestMapping("/api/autores")
 public class AutorController {
-    
+
     private final AutorService autorService;
-    
+
     public AutorController(AutorService autorService) {
         this.autorService = autorService;
     }
-    
+
     @PostMapping
     public ResponseEntity<Void> criarAutor(@Valid @RequestBody AutorDTO autorDTO) {
         Autor autor = autorService.salvarAutor(autorDTO);
         return ResponseEntity.created(URI.create("/api/autores/" + autor.getId())).build();
     }
-    
+
     @GetMapping
     public ResponseEntity<List<AutorDTO>> listarAutores() {
         List<AutorDTO> autores = autorService.listarAutores();
         return ResponseEntity.ok(autores);
     }
-    
+
     @GetMapping("/{id}")
     public ResponseEntity<AutorDTO> obterAutor(@PathVariable("id") UUID id) {
         AutorDTO autorDTO = autorService.obterAutor(id);
         return ResponseEntity.ok(autorDTO);
     }
-    
+
     @PutMapping("/{id}")
     public ResponseEntity<AutorDTO> atualizarAutor(@PathVariable("id") UUID id, @Valid @RequestBody AutorDTO autorDTO) {
-        AutorDTO autorAtualizado = autorService.atualizarAutor(id, autorDTO);
-        return ResponseEntity.ok(autorAtualizado);
+        AutorDTO autorDTOAtualizado = autorService.atualizarAutor(id, autorDTO);
+        return ResponseEntity.ok(autorDTOAtualizado);
     }
-    
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarAutor(@PathVariable("id") UUID id) {
         autorService.deletarAutor(id);

@@ -66,6 +66,4 @@ public class Autor {
     @UpdateTimestamp
     @Column(name = "data_atualizacao")
     private LocalDateTime dataAtualizacao;
-   
-
 }
